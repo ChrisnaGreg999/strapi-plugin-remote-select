@@ -1,5 +1,13 @@
 ![Remote select](https://github.com/dmitriy-nz/strapi-plugin-remote-select/raw/main/logo.svg)
 
+## 🚀 Fork Improvements (@gregcm999)
+
+This fork focuses on enhancing **Strapi 5 compatibility** and fixing critical state management issues:
+
+- **Reliable Empty Value Handling**: Fixed a bug where deselecting all options in a multi-select field would not correctly clear the value in the Strapi database.
+- **Strapi 5 `useField` Integration**: Refactored components to use the modern Strapi 5 `useField` hook, ensuring robust integration with the admin form state.
+- **Required Field Logic**: Added smart handling for "required" attributes. When a field is cleared, it correctly transitions to `null`, `[]`, or `undefined` depending on the field's requirements, preventing validation errors or "sticky" stale data.
+
 🎉 **Supports Strapi 4 and Strapi 5** 🎉
 
 A powerful tool that adds select type inputs to your strapi with the ability to dynamically load options via API.
@@ -42,17 +50,17 @@ This plugin supports several strapi versions, use this table to choose the corre
 
 ```bash
 # using yarn
-yarn add strapi-plugin-remote-select
+yarn add @gregcm999/strapi-plugin-remote-select
 
 # using npm
-npm install strapi-plugin-remote-select --save
+npm install @gregcm999/strapi-plugin-remote-select --save
 ```
 
 Enable plugin in your `config/plugins.js` file, just add:
 
 ```js
 module.exports = {
-  'remote-select': {
+  '@gregcm999/strapi-plugin-remote-select': {
     enabled: true,
   },
 };
