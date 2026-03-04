@@ -5,6 +5,7 @@ import {
   SingleSelect,
   SingleSelectOption,
 } from '@strapi/design-system';
+import { useField } from '@strapi/strapi/admin';
 import { useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { FlexibleSelectConfig } from '../../../../types/FlexibleSelectConfig';
@@ -29,6 +30,7 @@ export default function RemoteSelect({
   const selectConfiguration: FlexibleSelectConfig = attribute.options;
 
   const { formatMessage } = useIntl();
+  const { onChange: fieldOnChange } = useField(name);
   const isMulti = useMemo<boolean>(
     () => !!selectConfiguration.select?.multi,
     [selectConfiguration]
@@ -86,11 +88,10 @@ export default function RemoteSelect({
   function handleChange(value?: string | string[]) {
     if (isMulti) {
       value = Array.isArray(value) ? value : [];
-      value = value.filter((el) => el !== undefined && el !== null);
+      value = value.filter((el: string) => el !== undefined && el !== null);
       value = (value as string[]).length ? JSON.stringify(value) : undefined;
     }
-
-    onChange({
+    (fieldOnChange as any)({
       target: { name, type: attribute.type, value: value },
     });
   }
@@ -98,7 +99,9 @@ export default function RemoteSelect({
   function clear(event: PointerEvent) {
     event.stopPropagation();
     event.preventDefault();
-    handleChange(undefined);
+    (fieldOnChange as any)({
+      target: { name, type: attribute.type, value: null },
+    });
   }
 
   const optionsList = options.map((opt) => {

@@ -1,5 +1,5 @@
 {
-  "version": "2.0.11",
+  "version": "2.0.11-beta.2",
   "keywords": [
     "strapi select",
     "strapi multi selects",
@@ -72,7 +72,7 @@
     "kind": "plugin",
     "displayName": "Remote select"
   },
-  "name": "strapi-plugin-remote-select",
+  "name": "@gregcm999/strapi-plugin-remote-select",
   "description": "A powerful tool that adds select type inputs to your strapi with the ability to dynamically load options via API. Supports static and searchable endpoints—autocomplete.",
   "license": "MIT",
   "author": {

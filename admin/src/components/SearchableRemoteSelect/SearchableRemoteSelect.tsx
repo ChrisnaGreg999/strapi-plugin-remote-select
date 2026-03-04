@@ -1,5 +1,13 @@
-import { Checkbox, Combobox, ComboboxOption, Field, Flex, Tag } from '@strapi/design-system';
+import {
+  Checkbox,
+  Combobox,
+  ComboboxOption,
+  Field,
+  Flex,
+  Tag,
+} from '@strapi/design-system';
 import { Cross } from '@strapi/icons';
+import { useField } from '@strapi/strapi/admin';
 import { debounce } from 'lodash-es';
 import { useCallback, useEffect, useId, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -13,6 +21,7 @@ export default function SearchableRemoteSelect(attrs: any) {
 
   const generatedId = useId();
   const { formatMessage } = useIntl();
+  const { onChange: fieldOnChange } = useField(name);
   const [options, setOptions] = useState<Array<SearchableRemoteSelectValue>>([]);
   const [loadingError, setLoadingError] = useState<any>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -117,7 +126,7 @@ export default function SearchableRemoteSelect(attrs: any) {
       } else {
         writeSingleModel(value);
       }
-    } catch (err) {}
+    } catch (err) { }
   }
 
   function handleTextValueChange(val: string): void {
@@ -177,7 +186,7 @@ export default function SearchableRemoteSelect(attrs: any) {
       target: {
         name,
         type: attribute.type,
-        value: value ? JSON.stringify(value) : required ? undefined : JSON.stringify({}),
+        value: value ? JSON.stringify(value) : required ? undefined : null,
       },
     });
   }
@@ -186,7 +195,9 @@ export default function SearchableRemoteSelect(attrs: any) {
     event.stopPropagation();
     event.preventDefault();
     if (!isMulti) {
-      writeSingleModel(undefined);
+      (fieldOnChange as any)({
+        target: { name, type: attribute.type, value: null },
+      });
     }
   }
 
